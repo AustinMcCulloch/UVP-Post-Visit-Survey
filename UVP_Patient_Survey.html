@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Patient Experience Survey | Utah Valley Pediatrics</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #1a3a5c;
+    --navy-dark:  #122a44;
+    --blue:       #2a6496;
+    --blue-light: #3a7fc1;
+    --sky:        #e8f2f9;
+    --sky-pale:   #f4f8fc;
+    --teal:       #2a8a6e;
+    --teal-light: #e6f5f0;
+    --red:        #c0392b;
+    --red-light:  #fdecea;
+    --gold:       #d4900a;
+    --gold-light: #fdf5e0;
+    --sand:       #f7f7f5;
+    --white:      #ffffff;
+    --text:       #2c2c2c;
+    --muted:      #6b7280;
+    --border:     #dce3ec;
+    --radius:     8px;
+    --radius-lg:  12px;
+    --shadow:     0 2px 8px rgba(26,58,92,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--sand);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Header — matches uvpediatrics.com two-tier layout ── */
+  .header { background: var(--navy); padding: 0; }
+
+  /* Tier 1: white bar with logo */
+  .header-logo-bar {
+    background: var(--white);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 3px solid var(--blue);
+  }
+  .header-logo-bar img {
+    height: 56px;
+    width: auto;
+    display: block;
+  }
+  .header-logo-wordmark {
+    margin-left: 12px;
+    line-height: 1.2;
+  }
+  .header-logo-wordmark-name {
+    font-family: 'Merriweather', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    display: block;
+  }
+  .header-logo-wordmark-tagline {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-style: italic;
+    color: var(--blue);
+    font-weight: 400;
+    display: block;
+    letter-spacing: 0.04em;
+  }
+
+  /* Tier 2: navy bar with page label */
+  .header-nav-bar {
+    background: var(--navy);
+    padding: 10px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .header-nav-bar span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* Tier 3: survey title band */
+  .header-body {
+    background: var(--navy);
+    padding: 22px 20px 22px;
+    text-align: center;
+  }
+  .header-eyebrow { display: none; }
+  .header h1 {
+    font-family: 'Merriweather', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .header p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* ── Progress ── */
+  .progress-wrap {
+    background: var(--navy-dark);
+    padding: 0 20px 16px;
+  }
+  .progress-track {
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #5db8e8;
+    border-radius: 99px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 7px;
+    text-align: right;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Main ── */
+  .main { padding: 20px 16px 48px; max-width: 540px; margin: 0 auto; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+  .card-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--sky);
+  }
+
+  /* ── Visit info fields ── */
+  .field-group { margin-bottom: 14px; }
+  .field-group:last-child { margin-bottom: 0; }
+  .field-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .field-input {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+  .field-input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(42,100,150,0.12);
+  }
+
+  /* ── Autocomplete ── */
+  .autocomplete-wrap { position: relative; }
+  .autocomplete-list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0; right: 0;
+    background: var(--white);
+    border: 1.5px solid var(--blue);
+    border-radius: var(--radius);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    box-shadow: 0 6px 20px rgba(26,58,92,0.15);
+  }
+  .autocomplete-list.open { display: block; }
+  .autocomplete-item {
+    padding: 11px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Open Sans', sans-serif;
+    transition: background 0.12s;
+  }
+  .autocomplete-item:last-child { border-bottom: none; }
+  .autocomplete-item:hover, .autocomplete-item.highlighted { background: var(--sky); }
+  .autocomplete-item mark { background: none; color: var(--blue); font-weight: 700; }
+  .autocomplete-empty { padding: 11px 14px; font-size: 13px; color: var(--muted); font-style: italic; }
+
+  /* ── Question cards ── */
+  .question-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 14px;
+    transition: border-color 0.2s;
+  }
+  .question-card.answered { border-color: #7cc4a8; border-left: 4px solid var(--teal); }
+  .q-number {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+  .q-text {
+    font-family: 'Merriweather', serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+
+  /* ── 3-point scale ── */
+  .scale-3 { display: flex; flex-direction: column; gap: 8px; }
+  .scale-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    background: var(--white);
+  }
+  .scale-option:active { transform: scale(0.985); }
+  .scale-option.selected { border-color: var(--teal); background: var(--teal-light); }
+  .scale-option input[type="radio"] { display: none; }
+  .radio-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid #c5cfd9;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    background: var(--white);
+  }
+  .scale-option.selected .radio-dot { border-color: var(--teal); background: var(--teal); }
+  .radio-dot::after {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--white);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .scale-option.selected .radio-dot::after { opacity: 1; }
+  .option-label { font-size: 14px; font-weight: 600; color: var(--text); }
+  .scale-option.selected .option-label { color: var(--teal); }
+
+  /* ── NPS ── */
+  .nps-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 10px; font-weight: 600; }
+  .nps-grid { display: grid; grid-template-columns: repeat(11, 1fr); gap: 4px; }
+  .nps-btn {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--text);
+    -webkit-tap-highlight-color: transparent;
+    padding: 0;
+  }
+  .nps-btn:active { transform: scale(0.91); }
+  .nps-btn.selected { color: var(--white); border-color: transparent; }
+  .nps-btn[data-val="0"].selected,.nps-btn[data-val="1"].selected,.nps-btn[data-val="2"].selected,
+  .nps-btn[data-val="3"].selected,.nps-btn[data-val="4"].selected,.nps-btn[data-val="5"].selected,
+  .nps-btn[data-val="6"].selected { background: #c0392b; }
+  .nps-btn[data-val="7"].selected,.nps-btn[data-val="8"].selected { background: var(--gold); }
+  .nps-btn[data-val="9"].selected,.nps-btn[data-val="10"].selected { background: var(--teal); }
+  .nps-legend { display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px; color: var(--muted); font-weight: 600; }
+  .nps-legend span { display: flex; align-items: center; gap: 4px; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ── Comments & Contact ── */
+  .section-intro {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .comment-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+  .comment-tab {
+    flex: 1;
+    padding: 10px 8px;
+    border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    color: var(--muted);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .comment-tab.active-pos { border-color: var(--teal); background: var(--teal-light); color: var(--teal); }
+  .comment-tab.active-neg { border-color: var(--blue); background: var(--sky); color: var(--blue); }
+  .comment-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    resize: vertical;
+    min-height: 100px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    line-height: 1.6;
+  }
+  .comment-textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(42,100,150,0.10);
+  }
+  .char-count { font-size: 11px; color: var(--muted); text-align: right; margin-top: 4px; }
+  .optional-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--sand);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .hipaa-note {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    background: var(--sky-pale);
+    border: 1px solid #c5d9ec;
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .hipaa-note-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .contact-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 400px) { .contact-row { grid-template-columns: 1fr; } }
+
+  /* ── Submit ── */
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 6px;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 3px 10px rgba(26,58,92,0.25);
+  }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-btn.ready { background: var(--blue); }
+  .validation-msg { font-size: 13px; color: var(--red); margin-top: 10px; text-align: center; display: none; font-weight: 600; }
+
+  /* ── Thank you ── */
+  .thankyou { display: none; text-align: center; padding: 60px 24px; max-width: 420px; margin: 0 auto; }
+  .thankyou-icon {
+    width: 68px; height: 68px;
+    background: var(--teal-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 22px;
+    font-size: 28px;
+    border: 3px solid var(--teal);
+  }
+  .thankyou h2 { font-family: 'Merriweather', serif; font-size: 26px; color: var(--navy); margin-bottom: 12px; }
+  .thankyou p { font-size: 15px; color: var(--muted); line-height: 1.65; margin-bottom: 28px; }
+  .thankyou-followup {
+    background: var(--sky-pale);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-bottom: 28px;
+    font-size: 14px;
+    color: var(--navy);
+    line-height: 1.55;
+  }
+  .new-survey-btn {
+    padding: 13px 32px;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── Footer / Admin ── */
+  .footer-strip {
+    background: var(--navy-dark);
+    text-align: center;
+    padding: 14px 20px;
+  }
+  .footer-strip p { font-size: 11px; color: rgba(255,255,255,0.35); }
+  .admin-link-btn {
+    background: none; border: none;
+    font-size: 11px; color: rgba(255,255,255,0.2);
+    cursor: pointer; font-family: 'Open Sans', sans-serif;
+    margin-top: 6px; display: block; margin-left: auto; margin-right: auto;
+    transition: color 0.2s;
+  }
+  .admin-link-btn:hover { color: rgba(255,255,255,0.5); }
+
+</style>
+</head>
+<body>
+
+<div id="surveyView">
+  <!-- Header — mirrors uvpediatrics.com layout -->
+  <div class="header">
+    <!-- Tier 1: white logo bar -->
+    <div class="header-logo-bar">
+      <img src="https://www.uvpediatrics.com/wp-content/uploads/2020/10/cropped-uvp-ident-1-270x270.png"
+           alt="Utah Valley Pediatrics logo"
+           onerror="this.style.display='none'">
+      <div class="header-logo-wordmark">
+        <span class="header-logo-wordmark-name">Utah Valley Pediatrics</span>
+        <span class="header-logo-wordmark-tagline">Experts In Kids</span>
+      </div>
+    </div>
+    <!-- Tier 2: navy label bar -->
+    <div class="header-nav-bar">
+      <span>Patient Experience Survey</span>
+    </div>
+    <!-- Tier 3: survey title -->
+    <div class="header-body">
+      <h1>How did we do today?</h1>
+      <p>Your feedback helps us give every child the best care possible.<br>Takes about 2 minutes.</p>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 of 7 answered</div>
+  </div>
+
+  <div class="main">
+
+    <!-- Visit info -->
+    <div class="card">
+      <div class="card-title">About your visit</div>
+      <div class="field-group">
+        <label class="field-label" for="visitDate">Date of visit</label>
+        <input class="field-input" type="date" id="visitDate">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="providerInput">Provider seen today</label>
+        <div class="autocomplete-wrap">
+          <input class="field-input" type="text" id="providerInput"
+                 placeholder="Type a name to search…"
+                 autocomplete="off" autocorrect="off" spellcheck="false">
+          <div class="autocomplete-list" id="autocompleteList"></div>
+        </div>
+        <input type="hidden" id="providerValue">
+      </div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="question-card" id="card-1">
+      <div class="q-number">Question 1 of 6</div>
+      <div class="q-text">After your visit, did you feel confident you understood what is going on with your child's health?</div>
+      <div class="scale-3" data-q="q1">
+        <label class="scale-option"><input type="radio" name="q1" value="Yes, definitely"><span class="radio-dot"></span><span class="option-label">Yes, definitely</span></label>
+        <label class="scale-option"><input type="radio" name="q1" value="Yes, somewhat"><span class="radio-dot"></span><span class="option-label">Yes, somewhat</span></label>
+        <label class="scale-option"><input type="radio" name="q1" value="No"><span class="radio-dot"></span><span class="option-label">No</span></label>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card" id="card-2">
+      <div class="q-number">Question 2 of 6</div>
+      <div class="q-text">Did the provider take your concerns seriously — even if it turned out everything was fine?</div>
+      <div class="scale-3" data-q="q2">
+        <label class="scale-option"><input type="radio" name="q2" value="Yes, definitely"><span class="radio-dot"></span><span class="option-label">Yes, definitely</span></label>
+        <label class="scale-option"><input type="radio" name="q2" value="Yes, somewhat"><span class="radio-dot"></span><span class="option-label">Yes, somewhat</span></label>
+        <label class="scale-option"><input type="radio" name="q2" value="No"><span class="radio-dot"></span><span class="option-label">No</span></label>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card" id="card-3">
+      <div class="q-number">Question 3 of 6</div>
+      <div class="q-text">Did the provider explain what to watch for and when to call — so you knew exactly what to do if things changed?</div>
+      <div class="scale-3" data-q="q3">
+        <label class="scale-option"><input type="radio" name="q3" value="Yes, definitely"><span class="radio-dot"></span><span class="option-label">Yes, definitely</span></label>
+        <label class="scale-option"><input type="radio" name="q3" value="Yes, somewhat"><span class="radio-dot"></span><span class="option-label">Yes, somewhat</span></label>
+        <label class="scale-option"><input type="radio" name="q3" value="No"><span class="radio-dot"></span><span class="option-label">No</span></label>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-card" id="card-4">
+      <div class="q-number">Question 4 of 6</div>
+      <div class="q-text">Do you feel this practice is a true partner in your child's health — not just a place you visit when something is wrong?</div>
+      <div class="scale-3" data-q="q4">
+        <label class="scale-option"><input type="radio" name="q4" value="Yes, definitely"><span class="radio-dot"></span><span class="option-label">Yes, definitely</span></label>
+        <label class="scale-option"><input type="radio" name="q4" value="Yes, somewhat"><span class="radio-dot"></span><span class="option-label">Yes, somewhat</span></label>
+        <label class="scale-option"><input type="radio" name="q4" value="No"><span class="radio-dot"></span><span class="option-label">No</span></label>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-card" id="card-5">
+      <div class="q-number">Question 5 of 6</div>
+      <div class="q-text">Did the provider speak directly to your child during the visit — not just to you?</div>
+      <div class="scale-3" data-q="q5">
+        <label class="scale-option"><input type="radio" name="q5" value="Yes, definitely"><span class="radio-dot"></span><span class="option-label">Yes, definitely</span></label>
+        <label class="scale-option"><input type="radio" name="q5" value="Yes, somewhat"><span class="radio-dot"></span><span class="option-label">Yes, somewhat</span></label>
+        <label class="scale-option"><input type="radio" name="q5" value="No"><span class="radio-dot"></span><span class="option-label">No</span></label>
+        <label class="scale-option"><input type="radio" name="q5" value="Not applicable"><span class="radio-dot"></span><span class="option-label">Not applicable (infant or nonverbal)</span></label>
+      </div>
+    </div>
+
+    <!-- Q6 NPS -->
+    <div class="question-card" id="card-6">
+      <div class="q-number">Question 6 of 6</div>
+      <div class="q-text">How likely is it that you would recommend this provider to a friend or family member?</div>
+      <div class="nps-labels"><span>Not at all likely</span><span>Extremely likely</span></div>
+      <div class="nps-grid" id="npsGrid"></div>
+      <div class="nps-legend">
+        <span><span class="legend-dot" style="background:#c0392b"></span>Needs work (0–6)</span>
+        <span><span class="legend-dot" style="background:#d4900a"></span>Good (7–8)</span>
+        <span><span class="legend-dot" style="background:#2a8a6e"></span>Excellent (9–10)</span>
+      </div>
+    </div>
+
+    <!-- Comments -->
+    <div class="card">
+      <div class="card-title">Share more <span class="optional-tag">Optional</span></div>
+      <p class="section-intro">Is there anything specific you'd like us to know? You can share something that went especially well, or something we could do better. Both are equally valuable to us.</p>
+
+      <div class="comment-tabs">
+        <button type="button" class="comment-tab" id="tabPos" onclick="setCommentTab('pos')">👍 What went well</button>
+        <button type="button" class="comment-tab" id="tabNeg" onclick="setCommentTab('neg')">💬 What could be better</button>
+      </div>
+
+      <div id="commentPosWrap" style="display:none">
+        <textarea class="comment-textarea" id="commentPos" maxlength="500"
+          placeholder="Tell us what made your visit great — a specific provider, a staff member, or something we did that made a difference…"
+          oninput="updateCharCount('commentPos','charPos',500)"></textarea>
+        <div class="char-count" id="charPos">500 characters remaining</div>
+      </div>
+      <div id="commentNegWrap" style="display:none">
+        <textarea class="comment-textarea" id="commentNeg" maxlength="500"
+          placeholder="We genuinely want to know where we fell short — specific feedback helps us improve…"
+          oninput="updateCharCount('commentNeg','charNeg',500)"></textarea>
+        <div class="char-count" id="charNeg">500 characters remaining</div>
+      </div>
+    </div>
+
+    <!-- Contact info -->
+    <div class="card">
+      <div class="card-title">Would you like us to reach out? <span class="optional-tag">Optional</span></div>
+      <div class="hipaa-note">
+        <span class="hipaa-note-icon">🔒</span>
+        <span>Your contact information will only be used to follow up on your feedback. It will never be shared or used for marketing.</span>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="contactName">Your name</label>
+        <input class="field-input" type="text" id="contactName" placeholder="First and last name" autocomplete="name">
+      </div>
+      <div class="contact-row">
+        <div class="field-group">
+          <label class="field-label" for="contactPhone">Phone number</label>
+          <input class="field-input" type="tel" id="contactPhone" placeholder="(801) 555-0100" autocomplete="tel">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="contactEmail">Email address</label>
+          <input class="field-input" type="email" id="contactEmail" placeholder="you@email.com" autocomplete="email">
+        </div>
+      </div>
+      <div class="field-group" style="margin-bottom:0">
+        <label class="field-label">Best way to reach you</label>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <label class="scale-option" style="flex:1; min-width:90px; padding:9px 12px;" id="reachPhone">
+            <input type="radio" name="reachPref" value="Phone"><span class="radio-dot"></span><span class="option-label" style="font-size:13px;">Phone</span>
+          </label>
+          <label class="scale-option" style="flex:1; min-width:90px; padding:9px 12px;" id="reachText">
+            <input type="radio" name="reachPref" value="Text"><span class="radio-dot"></span><span class="option-label" style="font-size:13px;">Text</span>
+          </label>
+          <label class="scale-option" style="flex:1; min-width:90px; padding:9px 12px;" id="reachEmail">
+            <input type="radio" name="reachPref" value="Email"><span class="radio-dot"></span><span class="option-label" style="font-size:13px;">Email</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitSurvey()">Submit feedback</button>
+    <div class="validation-msg" id="validationMsg">Please select a provider and answer all 6 questions before submitting.</div>
+
+  </div><!-- /main -->
+
+  <div class="footer-strip">
+    <p>© Utah Valley Pediatrics · uvpediatrics.com · (801) 922-5200</p>
+  </div>
+</div><!-- /surveyView -->
+
+<!-- Thank You -->
+<div class="thankyou" id="thankyouView">
+  <div class="thankyou-icon">✓</div>
+  <h2>Thank you!</h2>
+  <p>We read every response and use your feedback to keep improving the care we give your family.</p>
+  <div id="followupNote" class="thankyou-followup" style="display:none">
+    <strong>We'll be in touch.</strong><br>A member of our team will follow up with you using the contact info you provided.
+  </div>
+  <button class="new-survey-btn" onclick="resetSurvey()">Done</button>
+</div>
+
+
+<script>
+// ── Providers ────────────────────────────────────────────────────────────────
+const PROVIDERS = [
+  {display:"Dr. R. Mitchell Adams",search:"adams mitchell r do"},
+  {display:"Dr. Matthew Allen",search:"allen matthew do"},
+  {display:"Dr. Bradley Anderson",search:"anderson bradley md"},
+  {display:"Dr. Sarah Ashby",search:"ashby sarah md"},
+  {display:"Dr. Ernest Bailey",search:"bailey ernest md"},
+  {display:"Dr. Jonathan Bartholomew",search:"bartholomew jonathan do"},
+  {display:"Dr. Garrett Burgon",search:"burgon garrett do"},
+  {display:"Dr. Marcie Conner",search:"conner marcie md"},
+  {display:"Dr. Michael Fullmer",search:"fullmer michael do"},
+  {display:"Dr. Ryan Gottfredson",search:"gottfredson ryan do"},
+  {display:"Dr. Joseph Hershkop",search:"hershkop joseph md"},
+  {display:"Dr. Jeffrey Jensen",search:"jensen jeffrey md"},
+  {display:"Dr. Tyson Jones",search:"jones tyson md"},
+  {display:"Dr. Melissa Kendall",search:"kendall melissa md"},
+  {display:"Dr. Matthew Koller",search:"koller matthew do"},
+  {display:"Dr. Douglas Later",search:"later douglas do"},
+  {display:"Dr. Benjamin Lauritzen",search:"lauritzen benjamin md"},
+  {display:"Dr. Stephen Lee",search:"lee stephen md"},
+  {display:"Dr. Scott Leifson",search:"leifson scott do"},
+  {display:"Dr. Brian McCune",search:"mccune brian md"},
+  {display:"Dr. Aaron McCoy",search:"mccoy aaron md"},
+  {display:"Dr. Garron Miller",search:"miller garron md"},
+  {display:"Dr. Jonathan Mitton",search:"mitton jonathan do"},
+  {display:"Dr. Scott Mumford",search:"mumford scott md"},
+  {display:"Dr. Kurt Nance",search:"nance kurt md"},
+  {display:"Dr. Kevin Nelson",search:"nelson kevin md"},
+  {display:"Dr. Jonathan Peterson",search:"peterson jonathan md"},
+  {display:"Dr. Scott Stroshine",search:"stroshine scott do"},
+  {display:"Dr. Bryan Weed",search:"weed bryan md"},
+  {display:"Dr. Ryan Wilcox",search:"wilcox ryan md"},
+  {display:"Dr. Jefferie Wilson",search:"wilson jefferie md"},
+  {display:"Dr. Adam Wynn",search:"wynn adam md"},
+  {display:"Dr. Gregory Wynn",search:"wynn gregory md"},
+  {display:"Dr. John Wynn",search:"wynn john md"},
+  {display:"Viki Bailey, FNP-C",search:"bailey viki fnp"},
+  {display:"Amber Barrus, FNP-C",search:"barrus amber fnp"},
+  {display:"Annalee Bingham, FNP-C",search:"bingham annalee fnp"},
+  {display:"Breanne Black, PA-C",search:"black breanne pa"},
+  {display:"Melissa Blakey, FNP-C",search:"blakey melissa fnp"},
+  {display:"Christine Broken Leg, PA-C",search:"broken leg christine pa"},
+  {display:"Jana Burningham, FNP-C",search:"burningham jana fnp"},
+  {display:"Stephanie Carteciano, FNP-C",search:"carteciano stephanie fnp"},
+  {display:"Todd Chidester, FNP-C",search:"chidester todd fnp"},
+  {display:"Sue Ann Christensen, PNP-C",search:"christensen sue ann pnp"},
+  {display:"Sharman Clayton, PNP-C",search:"clayton sharman pnp"},
+  {display:"Arnold Brett Davis, PA-C",search:"davis arnold brett pa"},
+  {display:"Cherie Farnes, FNP-C",search:"farnes cherie fnp"},
+  {display:"Harli Faulkner, FNP-C",search:"faulkner harli fnp"},
+  {display:"Jessica Fraughton, FNP-C",search:"fraughton jessica fnp"},
+  {display:"Marian Giauque, PNP-C",search:"giauque marian pnp"},
+  {display:"Michael Gibson, PNP-C",search:"gibson michael pnp"},
+  {display:"Hayley Gividen, FNP-C",search:"gividen hayley fnp"},
+  {display:"Kristen Hamblin, FNP-C",search:"hamblin kristen fnp"},
+  {display:"Kris Ice, PA-C",search:"ice kris pa"},
+  {display:"Marianne Mayo, FNP-C",search:"mayo marianne fnp"},
+  {display:"Nolan Padilla, PA-C",search:"padilla nolan pa"},
+  {display:"Taleigh Petersen, FNP-C",search:"petersen taleigh fnp"},
+  {display:"Carly Peterson, NNP-C",search:"peterson carly nnp"},
+  {display:"Courtney Peterson, FNP-C",search:"peterson courtney fnp"},
+  {display:"Xavier Pierce-Rocha, PA-C",search:"pierce rocha xavier pa"},
+  {display:"Andrea Quiroz, FNP-C",search:"quiroz andrea fnp"},
+  {display:"Paige Rigler, FNP-C",search:"rigler paige fnp"},
+  {display:"Erika Seaquist, FNP-C",search:"seaquist erika fnp"},
+  {display:"Marinn Smith, FNP-C",search:"smith marinn fnp"},
+  {display:"Heather Westergard, FNP-C",search:"westergard heather fnp"},
+  {display:"Samantha Whitehead, FNP-C",search:"whitehead samantha fnp"},
+];
+
+// ── Config ────────────────────────────────────────────────────────────────────
+// Replace this URL with your deployed Apps Script /exec URL
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwZPPlaQGfZnRq4WQVS2MPo_RkmMFVt-HK4A3MbqcqB_RgUENg2JwV952lBdKzL9Z5tQA/exec";
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let selectedProvider = "";
+let npsValue = null;
+let highlightedIndex = -1;
+let activeCommentTab = null;
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("visitDate").value = new Date().toISOString().split("T")[0];
+
+  // NPS grid
+  const grid = document.getElementById("npsGrid");
+  for (let i=0;i<=10;i++) {
+    const b=document.createElement("button");
+    b.className="nps-btn"; b.textContent=i; b.dataset.val=i; b.type="button";
+    b.onclick=()=>selectNPS(i); grid.appendChild(b);
+  }
+
+  // Autocomplete
+  const inp=document.getElementById("providerInput");
+  const list=document.getElementById("autocompleteList");
+  inp.addEventListener("input",()=>{
+    const q=inp.value.trim().toLowerCase();
+    selectedProvider=""; document.getElementById("providerValue").value=""; highlightedIndex=-1;
+    if(q.length<1){list.classList.remove("open");return;}
+    const matches=PROVIDERS.filter(p=>p.display.toLowerCase().includes(q)||p.search.includes(q)).slice(0,8);
+    list.innerHTML=matches.length
+      ? matches.map((p,i)=>`<div class="autocomplete-item" data-idx="${i}" onmousedown="pickProvider('${p.display.replace(/'/g,"\\'")}')">${p.display.replace(new RegExp('('+escRe(q)+')','gi'),'<mark>$1</mark>')}</div>`).join('')
+      : '<div class="autocomplete-empty">No providers found — try a last name</div>';
+    list.classList.add("open"); updateProgress();
+  });
+  inp.addEventListener("keydown",e=>{
+    const items=list.querySelectorAll(".autocomplete-item");
+    if(e.key==="ArrowDown"){e.preventDefault();highlightedIndex=Math.min(highlightedIndex+1,items.length-1);highlightItems(items);}
+    else if(e.key==="ArrowUp"){e.preventDefault();highlightedIndex=Math.max(highlightedIndex-1,0);highlightItems(items);}
+    else if(e.key==="Enter"&&highlightedIndex>=0){e.preventDefault();items[highlightedIndex].dispatchEvent(new MouseEvent("mousedown"));}
+    else if(e.key==="Escape"){list.classList.remove("open");}
+  });
+  document.addEventListener("click",e=>{if(!e.target.closest(".autocomplete-wrap"))list.classList.remove("open");});
+
+  // Radio buttons
+  document.querySelectorAll('.scale-3').forEach(group=>{
+    group.querySelectorAll('.scale-option').forEach(opt=>{
+      opt.addEventListener('click',()=>{
+        group.querySelectorAll('.scale-option').forEach(o=>o.classList.remove('selected'));
+        opt.classList.add('selected');
+        const card=opt.closest('.question-card');
+        if(card) card.classList.add('answered');
+        updateProgress();
+      });
+    });
+  });
+
+  // Contact preference radios
+  document.querySelectorAll('input[name="reachPref"]').forEach(r=>{
+    r.addEventListener('change',()=>{
+      document.querySelectorAll('input[name="reachPref"]').forEach(rb=>{
+        rb.closest('.scale-option').classList.toggle('selected',rb.checked);
+      });
+    });
+  });
+});
+
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function highlightItems(items){items.forEach((it,i)=>it.classList.toggle("highlighted",i===highlightedIndex));}
+function pickProvider(val){
+  selectedProvider=val;
+  document.getElementById("providerInput").value=val;
+  document.getElementById("providerValue").value=val;
+  document.getElementById("autocompleteList").classList.remove("open");
+  updateProgress();
+}
+function selectNPS(val){
+  npsValue=val;
+  document.querySelectorAll(".nps-btn").forEach(b=>b.classList.toggle("selected",parseInt(b.dataset.val)===val));
+  document.getElementById("card-6").classList.add("answered");
+  updateProgress();
+}
+
+// ── Comment tabs ──────────────────────────────────────────────────────────────
+function setCommentTab(tab){
+  activeCommentTab=tab;
+  document.getElementById("tabPos").className="comment-tab"+(tab==="pos"?" active-pos":"");
+  document.getElementById("tabNeg").className="comment-tab"+(tab==="neg"?" active-neg":"");
+  document.getElementById("commentPosWrap").style.display=tab==="pos"?"block":"none";
+  document.getElementById("commentNegWrap").style.display=tab==="neg"?"block":"none";
+}
+function updateCharCount(textareaId,countId,max){
+  const remaining=max-document.getElementById(textareaId).value.length;
+  document.getElementById(countId).textContent=remaining+" characters remaining";
+}
+
+// ── Progress ──────────────────────────────────────────────────────────────────
+function updateProgress(){
+  let answered=0;
+  if(selectedProvider) answered++;
+  ["q1","q2","q3","q4","q5"].forEach(q=>{if(document.querySelector(`input[name="${q}"]:checked`))answered++;});
+  if(npsValue!==null) answered++;
+  const total=7;
+  const pct=Math.round((answered/total)*100);
+  document.getElementById("progressFill").style.width=pct+"%";
+  document.getElementById("progressLabel").textContent=answered+" of "+total+" answered";
+  document.getElementById("submitBtn").classList.toggle("ready",answered===total);
+}
+
+// ── Submit ────────────────────────────────────────────────────────────────────
+function submitSurvey(){
+  const missing=[];
+  if(!selectedProvider) missing.push("provider");
+  ["q1","q2","q3","q4","q5"].forEach(q=>{if(!document.querySelector(`input[name="${q}"]:checked`))missing.push(q);});
+  if(npsValue===null) missing.push("q6");
+  const msg=document.getElementById("validationMsg");
+  if(missing.length){msg.style.display="block";return;}
+  msg.style.display="none";
+
+  const contactName=document.getElementById("contactName").value.trim();
+  const contactPhone=document.getElementById("contactPhone").value.trim();
+  const contactEmail=document.getElementById("contactEmail").value.trim();
+  const reachPref=document.querySelector('input[name="reachPref"]:checked');
+
+  const response={
+    timestamp:new Date().toISOString(),
+    date:document.getElementById("visitDate").value,
+    provider:selectedProvider,
+    q1:document.querySelector('input[name="q1"]:checked').value,
+    q2:document.querySelector('input[name="q2"]:checked').value,
+    q3:document.querySelector('input[name="q3"]:checked').value,
+    q4:document.querySelector('input[name="q4"]:checked').value,
+    q5:document.querySelector('input[name="q5"]:checked').value,
+    nps:npsValue,
+    npsCategory:npsValue>=9?"Promoter":npsValue>=7?"Passive":"Detractor",
+    commentPositive:document.getElementById("commentPos").value.trim(),
+    commentNegative:document.getElementById("commentNeg").value.trim(),
+    contactName:contactName,
+    contactPhone:contactPhone,
+    contactEmail:contactEmail,
+    contactPreference:reachPref?reachPref.value:"",
+    wantsFollowup:!!(contactName||contactPhone||contactEmail),
+    userAgent:navigator.userAgent,
+    source:location.hostname||location.href
+  };
+
+  // Disable button to prevent double-submit
+  const btn=document.getElementById("submitBtn");
+  btn.disabled=true; btn.textContent="Submitting…";
+
+  // POST to Apps Script — fire-and-forget (mode:no-cors returns opaque response)
+  fetch(ENDPOINT,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify(response)
+  }).catch(()=>{}).finally(()=>{
+    btn.disabled=false; btn.textContent="Submit feedback";
+  });
+
+  // Show thank-you immediately; Sheet write completes in background
+  document.getElementById("followupNote").style.display=response.wantsFollowup?"block":"none";
+  document.getElementById("surveyView").style.display="none";
+  document.getElementById("thankyouView").style.display="block";
+  window.scrollTo(0,0);
+}
+
+function resetSurvey(){
+  document.getElementById("thankyouView").style.display="none";
+  document.getElementById("surveyView").style.display="block";
+  document.getElementById("visitDate").value=new Date().toISOString().split("T")[0];
+  document.getElementById("providerInput").value="";
+  document.getElementById("providerValue").value="";
+  selectedProvider=""; npsValue=null; highlightedIndex=-1; activeCommentTab=null;
+  document.querySelectorAll(".scale-option").forEach(o=>o.classList.remove("selected"));
+  document.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=false);
+  document.querySelectorAll(".question-card").forEach(c=>c.classList.remove("answered"));
+  document.querySelectorAll(".nps-btn").forEach(b=>b.classList.remove("selected"));
+  document.getElementById("commentPos").value="";
+  document.getElementById("commentNeg").value="";
+  document.getElementById("contactName").value="";
+  document.getElementById("contactPhone").value="";
+  document.getElementById("contactEmail").value="";
+  document.getElementById("commentPosWrap").style.display="none";
+  document.getElementById("commentNegWrap").style.display="none";
+  document.getElementById("tabPos").className="comment-tab";
+  document.getElementById("tabNeg").className="comment-tab";
+  document.getElementById("progressFill").style.width="0%";
+  document.getElementById("progressLabel").textContent="0 of 7 answered";
+  document.getElementById("submitBtn").classList.remove("ready");
+  document.getElementById("validationMsg").style.display="none";
+  window.scrollTo(0,0);
+}
+
+</script>
+</body>
+</html>
